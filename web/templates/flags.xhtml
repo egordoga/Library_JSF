@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+<h:head>
+
+</h:head>
+
+<h:body>
+    <ui:composition>
+
+            <h:form>
+                    <h:commandLink action="#{localeChanger.changeLocale('en')}">
+                        <h:graphicImage library="images" name="united_kingdom_fluttering_flag_64.png" width="38" height="24" title="eng"/>
+                        <f:ajax render=":login_div :lib_title" execute="@form" disabled="#{fn:contains(request.requestURI, 'library_template.xhtml')}"/>
+                        <f:ajax render="@all" execute="@form" disabled="#{not fn:contains(request.requestURL, 'library_template.xhtml')}"/>
+                    </h:commandLink>
+
+                    <h:commandLink action="#{localeChanger.changeLocale('ru')}">
+                        <h:graphicImage library="images" name="russia_fluttering_flag_64.png" width="38" height="24" title="рус"/>
+                        <f:ajax render=":login_div :lib_title" execute="@form" disabled="#{fn:contains(request.requestURI, 'library_template.xhtml')}"/>
+                        <f:ajax render="@all" execute="@form" disabled="#{not fn:contains(request.requestURL, 'library_template.xhtml')}"/>
+                    </h:commandLink>
+            </h:form>
+
+    </ui:composition>
+</h:body>
+</html>

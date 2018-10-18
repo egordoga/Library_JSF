@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+   <h:head>
+      <title>LibraryJSF</title>
+      <h:outputStylesheet library="css" name="index.css"/>
+      <h:outputScript library="js" name="library.js" target="head"/>
+   </h:head>
+
+<h:body>
+   <div class="osnova">
+      <div class="contento">
+         <h:graphicImage library="images" name="lib.jpg"/>
+         <p><h:outputText id="lib_title" value="#{msg.on_lib}"/></p>
+      </div>
+      <div class="forma">
+         <h:form id="login_form">
+           <h:panelGrid columns="3">
+              <h:outputText value="#{msg.input_name}" style="text-align: left"/>
+              <h:inputText id="username" value="#{user.username}" required="true" requiredMessage="#{msg.login_required}">
+                 <!--<f:validator validatorId="loginValidator"/>-->
+                 <!--<f:ajax event="keyup" render="loginError"/>-->
+              </h:inputText>
+              #{" "}
+              <h:outputText value="#{msg.input_pass}" style="text-align: left"/>
+              <h:inputSecret id="password" value="#{user.password}" required="true" redisplay="true" requiredMessage="#{msg.password_required}">
+              </h:inputSecret>
+
+            <h:commandButton value="#{msg.input_btn}" action="#{user.login}" styleClass="myButton" onclick="return checkValue(this.form, '#{msg.login_required}');"/>
+           </h:panelGrid>
+            <!--<p><h:message id="loginError" for="username" style="color: red"/> </p>-->
+            <h:message id="loginError" for="login_form" style="color: red"/>
+            <h:message id="username_input" for="username" style="color: red"/>
+         </h:form>
+      </div>
+   </div>
+</h:body>
+</html>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title>LibraryJSF</title>
+    <h:outputStylesheet library="css" name="main.css"/>
+</h:head>
+
+<h:body>
+
+    <ui:composition>
+        <div class="heada">
+            <div class="img">
+                <h:graphicImage library="images" name="Library-Mac-icon.png"/>
+            </div>
+            <div class="opis">
+                <h:outputText value="#{msg.on_lib}"/>
+            </div>
+
+            <div class="hello">
+                <h:outputText value="#{msg.hello}  !!!"/><br/><br/>
+            </div>
+
+            <div class="exit">
+                <h:commandLink value="#{msg.exit}" action="../index" styleClass="exit_text"/>
+            </div>
+
+            <div class="locale">
+                <ui:insert>
+                    <ui:include src="flags.xhtml"/>
+                </ui:insert>
+            </div>
+            <div class="find">
+                <h:form id="find">
+                    <h:inputText size="70" value="#{searchController.searchString}" id="search_string"/>
+                    <h:commandButton styleClass="myButton" value="#{msg.find}"
+                                     action="#{searchController.fillBookBySearch}"/>
+                    <h:selectOneMenu value="#{searchController.searchType}">
+                        <f:selectItems value="${searchTypeController.searchList}"/>
+                    </h:selectOneMenu>
+                </h:form>
+            </div>
+            <div class="letters">
+                <h:form>
+                    <ui:repeat value="#{searchController.russianLetters}" var="letter">
+                        <h:commandLink action="#{searchController.fillBooksByLetter}" value="#{letter}"
+                                       styleClass="#{letter == searchController.selectedLetter ? 'selected_let':'let'}">
+                            <f:param name="letter" value="#{letter}"/>
+                        </h:commandLink>
+                    </ui:repeat>
+                </h:form>
+            </div>
+        </div>
+    </ui:composition>
+
+</h:body>
+</html>

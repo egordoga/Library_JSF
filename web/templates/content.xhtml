@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+
+</h:head>
+
+
+<h:body>
+    <ui:composition>
+        <h:form id="books">
+            <p>
+                <!--<h:form>-->
+                <h:panelGroup id="admin_tools" rendered="#{request.isUserInRole('admin')}">
+                    <h:commandLink styleClass="link_add" rendered="#{!searchController.editMode}">
+                        <h:outputText value="#{msg.add_book} "/>
+                        <f:ajax execute="@form" render="show_book @form" listener="#{searchController.switchEditMode}"/>
+                    </h:commandLink>
+                    <h:commandLink styleClass="link_edit" rendered="#{!searchController.editMode}">
+                        <h:outputText value=" #{msg.edit}"/>
+                        <f:ajax execute="@form" render=":show_book @form"
+                                listener="#{searchController.switchEditMode}"/>
+                    </h:commandLink>
+
+                    <h:commandButton value="#{msg.save}" action="#{searchController.updateBooks}"
+                                     rendered="#{searchController.editMode}" styleClass="btn_save">
+                        <f:ajax execute="@form" render="@form show_book" listener="#{searchController.updateBooks}"/>
+                    </h:commandButton>
+                    <h:commandButton immediate="true" value="#{msg.cancel}" rendered="#{searchController.editMode}"
+                                     styleClass="btn_cancel">
+                        <f:ajax execute="@form" render="show_book @form" listener="#{searchController.switchEditMode}"/>
+                    </h:commandButton>
+
+                </h:panelGroup>
+                <!--</h:form>-->
+            </p>
+
+            <h:outputText value="#{msg.book_count} #{searchController.totalBooksCount}" id="total_count"/><br/>
+
+            <!--<h:form id="show_book">-->
+            <ui:repeat value="#{searchController.currentBookList}" var="cbl">
+                <br/>
+                <div class="show_book">
+                    <h:graphicImage value="/ShowImage?id=#{cbl.id}" width="120" height="160" styleClass="img_book"/>
+
+
+                    <h:outputLink value="#{request.contextPath}/PdfContent?id=#{cbl.id}"
+                                  styleClass="name_book" target="_blank">#{cbl.name}</h:outputLink><br/><br/>
+
+                    <div class="book_details">
+                        <strong><h:outputText value="#{msg.author} "/> </strong><h:outputText
+                            value="#{cbl.author}"/>
+                        <br/>
+                        <strong>#{msg.publisher}</strong>
+                        <h:outputText value=" #{cbl.publisher}" rendered="#{!searchController.editMode}"/>
+                        <h:inputText value=" #{cbl.publisher}" rendered="#{searchController.editMode}"/>
+
+                        <br/>
+                        <strong>#{msg.publish_year}</strong>
+                        <h:outputText value=" #{cbl.publishYear}" rendered="#{!searchController.editMode}"/>
+                        <h:inputText value=" #{cbl.publishYear}" rendered="#{searchController.editMode}"/>
+
+                        <br/>
+                        <strong>#{msg.page_count}</strong>
+                        <h:outputText value=" #{cbl.pageCount}" rendered="#{!searchController.editMode}"/>
+                        <h:inputText value=" #{cbl.pageCount}" rendered="#{searchController.editMode}"/>
+
+                        <br/>
+                        <strong>ISBN</strong>
+                        <h:outputText value=" #{cbl.isbn}" rendered="#{!searchController.editMode}"/>
+                        <h:inputText value=" #{cbl.isbn}" rendered="#{searchController.editMode}"/>
+                    </div>
+
+                    <h:outputLink target="_blank" styleClass="save_link"
+                                  value="#{request.contextPath}/PdfContent">
+                        <h:outputText value="#{msg.download}"/>
+                        <f:param name="id" value="#{cbl.id}"/>
+                        <f:param name="filename" value="#{cbl.name}"/>
+                        <f:param name="download" value="true"/>
+                    </h:outputLink>
+                </div>
+            </ui:repeat>
+
+
+            <br/>
+            <!--<div class="page_numbers">-->
+            <h:panelGroup id="pagess" rendered="#{searchController.totalBooksCount > searchController.booksOnPage}">
+                <h:selectOneMenu value="#{searchController.booksOnPage}"
+                                 valueChangeListener="#{searchController.changeBooksOnPage}">
+                    <f:selectItem itemValue="2"/>
+                    <f:selectItem itemValue="3"/>
+                    <f:selectItem itemValue="4"/>
+                    <f:ajax event="change" execute="@form" render="@form"/>
+                </h:selectOneMenu>
+                <ui:repeat value="#{searchController.pageNumbers}" var="pn">
+                    <h:commandLink value="#{pn}" action="#{searchController.selectedPage()}"
+                                   styleClass="#{pn == searchController.selectedPageNumber ? 'sel_pn' : 'pn'}">
+                        <f:param name="page_number" value="#{pn}"/>
+                    </h:commandLink>
+                </ui:repeat>
+            </h:panelGroup>
+        </h:form>
+
+        <br/><br/>
+
+    </ui:composition>
+</h:body>
+</html>
