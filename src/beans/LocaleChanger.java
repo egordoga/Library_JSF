@@ -11,7 +11,7 @@ import java.util.Locale;
 @SessionScoped
 public class LocaleChanger implements Serializable {
 
-    private Locale currentLocale; // = FacesContext.getCurrentInstance().getViewRoot().getLocale();
+    private Locale currentLocale;
 
     @PostConstruct
     public void init() {

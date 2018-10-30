@@ -20,7 +20,7 @@ public class ShowImage extends HttpServlet {
         doPost(request, response);
     }
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         response.setContentType("image/jpeg");
         try (OutputStream out = response.getOutputStream()) {
